@@ -62,18 +62,18 @@ class EmailUser(models.Model):
     # método para calcular el correo corporativo InicalNombre+Apellido1+Apellido2@empresa.es
     @api.depends("name", "surname", "surname2", "domain")
     def _calcula_correo_corporativo(self):
-        # puede que nos llegue mas de un registro por eso esta definido el bucle for
         for registro in self:
-            # construimos el correo corporativo
-            nombre_partes = registro.name.split(" ")
-            if len(nombre_partes) > 0:
-                primer_nombre = nombre_partes[0]
-            else:
-                primer_nombre = ""
-
-            correo = primer_nombre.lower() + "." + registro.surname.lower()
+            # si no hay nombre, apellido o dominio no se puede generar el correo
+            if not registro.name or not registro.surname or not registro.domain:
+                registro.correo_corporativo = False
+                continue
+            # obtenemos el primer nombre (antes del espacio)
+            primer_nombre = registro.name.split(" ")[0].lower()
+            correo = f"{primer_nombre}.{registro.surname.lower()}"
+            # si existe segundo apellido lo añadimos
             if registro.surname2:
-                correo += "." + registro.surname2.lower()
-            correo += "@" + registro.domain.lower()
-
+                correo += f".{registro.surname2.lower()}"
+            # añadimos el dominio
+            correo += f"@{registro.domain.lower()}"
             registro.correo_corporativo = correo
+            
