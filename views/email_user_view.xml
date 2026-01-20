@@ -21,6 +21,7 @@
             <list>
                 <field name="name"/>
                 <field name="email"/>
+                <field name="mayor_edad"/> <!-- añadido campo mayor de edad -->
                 <field name="active"/>
             </list>
         </field>
@@ -34,7 +35,13 @@
                 <sheet>
                     <group string="Datos del usuario">
                         <field name="name"/>
+                        <field name="surname"/> <!-- añadido primer apellido -->
+                        <field name="surname2"/> <!-- añadido segundo apellido -->
+                        <field name="fecha_nacimiento"/> <!-- añadido fecha de nacimiento -->
+                        <field name="edad" readonly="1"/> <!-- añadido edad -->
+                        <field name="mayor_edad" readonly="1"/> <!-- añadido mayor de edad -->
                         <field name="email"/>
+                        <field name="correo_corporativo" readonly="1"/> <!-- añadido correo corporativo -->
                         <field name="password" password="True"/>
                         <field name="domain"/>
                         <field name="quota"/>
